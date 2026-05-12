@@ -8,25 +8,19 @@ export default function GalleryPage() {
     <>
       <section
         className="wood-plank burned-edge-bottom"
-        style={{ padding: '4rem 1rem', textAlign: 'center' }}
+        style={{ padding: '5rem 1rem 4.5rem', textAlign: 'center' }}
       >
-        <span
-          className="handwritten"
-          style={{ color: 'var(--honey)', fontSize: '2rem' }}
-        >
-          Past work
-        </span>
-        <h1 style={{ margin: '0.3rem 0' }}>The Gallery</h1>
+        <span className="eyebrow">Past Work</span>
+        <h1 style={{ margin: '0.5rem 0' }}>The Gallery</h1>
         <p
           style={{
             maxWidth: '640px',
-            margin: '0 auto',
-            color: 'var(--parchment)',
-            opacity: 0.92,
+            margin: '0.5rem auto 0',
+            color: 'var(--cream)',
           }}
         >
-          A look at what&rsquo;s come off the laser. Filter by category, or scroll
-          through it all.
+          A look at what&rsquo;s come off the laser. Filter by category, or
+          scroll through it all.
         </p>
       </section>
 

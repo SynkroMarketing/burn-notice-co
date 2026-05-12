@@ -8,36 +8,41 @@ export default function AboutPage() {
     <>
       <section
         className="wood-plank burned-edge-bottom"
-        style={{ padding: '4rem 1rem', textAlign: 'center' }}
+        style={{ padding: '5rem 1rem 4.5rem', textAlign: 'center' }}
       >
-        <span
-          className="handwritten"
-          style={{ color: 'var(--honey)', fontSize: '2rem' }}
+        <span className="eyebrow">The Story</span>
+        <h1 style={{ margin: '0.5rem 0' }}>A Passion Turned Into Purpose</h1>
+        <p
+          style={{
+            maxWidth: '680px',
+            margin: '0.5rem auto 0',
+            color: 'var(--cream)',
+          }}
         >
-          The story
-        </span>
-        <h1 style={{ margin: '0.3rem 0' }}>About Burn Notice Co</h1>
+          Engraved as a hobby — now creating custom designs and products for
+          friends, family, and businesses.
+        </p>
       </section>
 
       <section className="section container">
         <div className="story">
           <p>
-            Burn Notice Co started as a side project with one laser and a pile of
-            scrap wood. The goal was simple: take ordinary objects and turn them
-            into the kind of thing someone hangs on to for years.
+            Burn Notice Co started as a side project with one laser and a pile
+            of scrap wood. The goal was simple: take ordinary objects and turn
+            them into the kind of thing someone hangs on to for years.
           </p>
           <p>
-            Today the work covers everything that fits under a laser — tumblers and
-            cutting boards, leather wallets and house signs, wedding gifts that
-            someone actually keeps. Every piece is designed and made by hand, one at
-            a time. Nothing gets mass-produced, and nothing leaves the shop until it
-            looks right.
+            Today the work covers everything that fits under a laser — tumblers
+            and cutting boards, leather wallets and house signs, wedding gifts
+            that someone actually keeps. Every piece is designed and made by
+            hand, one at a time. Nothing gets mass-produced, and nothing leaves
+            the shop until it looks right.
           </p>
           <p>
-            Most of what comes through here is custom work. People bring in an idea,
-            a memory, a name, a date — and we figure out together what it should
-            look like burned into the wood. It&rsquo;s slower than the alternatives.
-            That&rsquo;s the point.
+            Most of what comes through here is custom work. People bring in an
+            idea, a memory, a name, a date — and together we figure out what it
+            should look like burned into the wood. It&rsquo;s slower than the
+            alternatives. That&rsquo;s the point.
           </p>
           <p>
             Have something you want made? <Link href="/custom">Send over the details</Link> or

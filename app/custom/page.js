@@ -7,25 +7,19 @@ export default function CustomPage() {
     <>
       <section
         className="wood-plank burned-edge-bottom"
-        style={{ padding: '4rem 1rem', textAlign: 'center' }}
+        style={{ padding: '5rem 1rem 4.5rem', textAlign: 'center' }}
       >
-        <span
-          className="handwritten"
-          style={{ color: 'var(--honey)', fontSize: '2rem' }}
-        >
-          One-of-a-kind
-        </span>
-        <h1 style={{ margin: '0.3rem 0' }}>Custom Orders</h1>
+        <span className="eyebrow">One-of-a-Kind</span>
+        <h1 style={{ margin: '0.5rem 0' }}>Custom Orders</h1>
         <p
           style={{
             maxWidth: '700px',
-            margin: '0 auto',
-            color: 'var(--parchment)',
-            opacity: 0.92,
+            margin: '0.5rem auto 0',
+            color: 'var(--cream)',
           }}
         >
-          Got an idea? Tell us what you&rsquo;d like burned, on what, and by when.
-          We&rsquo;ll get back with a quote — usually within 24 hours.
+          Got an idea? Tell us what you&rsquo;d like burned, on what, and by
+          when. We&rsquo;ll get back with a quote — usually within 24 hours.
         </p>
       </section>
 

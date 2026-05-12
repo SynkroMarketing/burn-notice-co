@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useCart } from './CartProvider';
+import Logo from './Logo';
 
 const LINKS = [
   { href: '/', label: 'Home' },
@@ -22,7 +23,7 @@ export default function Header() {
     <header className="site-header">
       <div className="nav-container">
         <Link href="/" className="brand">
-          <span className="brand-mark" aria-hidden="true"></span>
+          <Logo />
           Burn Notice Co
         </Link>
         <button
