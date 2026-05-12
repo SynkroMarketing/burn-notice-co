@@ -7,7 +7,6 @@ import { useCart } from './CartProvider';
 import Logo from './Logo';
 
 const LINKS = [
-  { href: '/', label: 'Home' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/shop', label: 'Shop' },
   { href: '/custom', label: 'Custom Order' },
@@ -24,7 +23,7 @@ export default function Header() {
       <div className="nav-container">
         <Link href="/" className="brand">
           <Logo />
-          Burn Notice Co
+          Burn Notice Co.
         </Link>
         <button
           className="nav-toggle"
@@ -35,8 +34,7 @@ export default function Header() {
         </button>
         <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
           {LINKS.map((l) => {
-            const isActive =
-              l.href === '/' ? pathname === '/' : pathname.startsWith(l.href);
+            const isActive = pathname.startsWith(l.href);
             return (
               <li key={l.href}>
                 <Link
@@ -58,7 +56,7 @@ export default function Header() {
                 openCart();
               }}
             >
-              Cart (<span>{count}</span>)
+              Cart ({count})
             </a>
           </li>
         </ul>
