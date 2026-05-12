@@ -1,0 +1,21 @@
+{
+  "name": "burn-notice-co",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Burn Notice Co — Next.js site for showcase + orders",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "next": "^14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}
