@@ -8,7 +8,7 @@ export default function HomePage() {
         <div className="hero-grid">
           <div className="hero-copy">
             <span className="eyebrow">Custom Woodworking · Laser Engraving</span>
-            <h1>
+            <h1 className="wood-text">
               Custom Engraved <em>Gifts</em>
               <br />
               That Last A Lifetime.
