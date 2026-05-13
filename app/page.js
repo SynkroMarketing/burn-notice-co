@@ -4,6 +4,26 @@ export default function HomePage() {
   return (
     <>
       <section className="hero-mega">
+        <div className="lasers" aria-hidden="true">
+          <span className="laser" />
+          <span className="laser" />
+          <span className="laser" />
+          <span className="laser" />
+          <span className="laser" />
+          <span className="laser" />
+        </div>
+        <div className="embers" aria-hidden="true">
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+          <span className="ember-particle" />
+        </div>
         <div className="hero-mega-inner">
           <div className="hero-mega-eyebrow">
             <span>Custom Woodworking · Laser Engraving</span>

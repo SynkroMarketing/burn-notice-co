@@ -169,28 +169,22 @@ a:hover { color: var(--magma); }
 }
 
 /* ---------- 3. EMBER-CLIPPED MEGA TEXT ---------------------- */
-.ember-text {
-  background-image:
-    /* hot core */
-    radial-gradient(ellipse at 20% 25%, #ffe070 0%, transparent 28%),
-    radial-gradient(ellipse at 75% 60%, #ff5a1a 0%, transparent 40%),
-    radial-gradient(ellipse at 50% 80%, #c0340a 0%, transparent 45%),
-    radial-gradient(ellipse at 90% 15%, #ffaa3a 0%, transparent 30%),
-    /* base flame gradient */
-    linear-gradient(155deg,
-      #ffe070 0%,
-      #ff8a3a 25%,
-      #ff5a1a 55%,
-      #c0340a 80%,
-      #6f150a 100%
-    );
+.ember-text,
+.ember-text span {
+  background: linear-gradient(180deg,
+    #ffe070 0%,
+    #ffaa3a 18%,
+    #ff8a3a 38%,
+    #ff5a1a 60%,
+    #c0340a 82%,
+    #8b2010 100%
+  );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  /* faint glow halo */
-  filter: drop-shadow(0 0 28px rgba(255, 90, 26, 0.18));
 }
+.ember-text { filter: drop-shadow(0 0 32px rgba(255, 90, 26, 0.22)); }
 
 /* Wood-text helper kept for compatibility — but recolored to ember */
 .wood-text { composes: ember-text; }
@@ -245,51 +239,77 @@ a:hover { color: var(--magma); }
 
 .brand {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--ink);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.55rem;
+  position: relative;
 }
-.brand::before { content: "["; color: var(--neon); }
-.brand::after { content: "]"; color: var(--neon); }
+.brand:hover { color: var(--neon); }
 .brand-logo {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
   background:
-    radial-gradient(circle at 30% 30%, var(--spark), var(--neon) 60%, var(--neon-deep) 100%);
-  box-shadow: 0 0 8px rgba(255, 90, 26, 0.6);
+    radial-gradient(circle at 30% 30%, var(--spark), var(--neon) 55%, var(--neon-deep) 100%);
+  box-shadow: 0 0 10px rgba(255, 90, 26, 0.7),
+              0 0 22px rgba(255, 90, 26, 0.35);
+  animation: brand-pulse 2.8s ease-in-out infinite;
+}
+@keyframes brand-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 90, 26, 0.7), 0 0 22px rgba(255, 90, 26, 0.35); }
+  50%      { box-shadow: 0 0 16px rgba(255, 138, 58, 0.9), 0 0 32px rgba(255, 138, 58, 0.5); }
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 1.6rem;
+  gap: 1.9rem;
   align-items: center;
 }
 .nav-links a {
   font-family: var(--font-mono);
   color: var(--text);
   font-weight: 500;
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   position: relative;
-  padding: 0.3rem 0;
+  padding: 0.45rem 0;
+  transition: color 0.25s;
 }
-.nav-links a:not(.nav-cart)::before { content: "["; color: var(--muted); margin-right: 0.18em; }
-.nav-links a:not(.nav-cart)::after  { content: "]"; color: var(--muted); margin-left: 0.18em; }
-.nav-links a:hover { color: var(--neon); }
-.nav-links a:hover::before,
-.nav-links a:hover::after,
-.nav-links a.active::before,
-.nav-links a.active::after { color: var(--neon); }
+/* Scorched underline — looks like a laser drew it */
+.nav-links a:not(.nav-cart)::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -1px;
+  height: 1.5px;
+  width: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--spark) 30%, var(--neon) 50%, var(--magma) 70%, transparent 100%);
+  box-shadow: 0 0 10px var(--neon), 0 0 22px rgba(255, 90, 26, 0.5);
+  transition: width 0.38s cubic-bezier(0.5, 0, 0.2, 1);
+}
+.nav-links a:not(.nav-cart):hover::after,
+.nav-links a:not(.nav-cart).active::after { width: 100%; }
+.nav-links a:hover { color: var(--ink); }
 .nav-links a.active { color: var(--neon); }
+.nav-links a.active::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon), 0 0 16px var(--neon);
+  margin-right: 0.6em;
+  vertical-align: middle;
+  animation: brand-pulse 1.8s ease-in-out infinite;
+}
 
 .nav-cart {
   background: var(--neon) !important;
@@ -330,12 +350,21 @@ a:hover { color: var(--magma); }
   color: var(--neon);
   margin-bottom: var(--space-xs);
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   font-family: var(--font-mono);
   font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
 }
-.site-footer h4::before { content: "["; opacity: 0.6; }
-.site-footer h4::after  { content: "]"; opacity: 0.6; }
+.site-footer h4::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon);
+}
 .site-footer p { color: var(--muted); }
 .site-footer a { color: var(--text); }
 .site-footer a:hover { color: var(--neon); }
@@ -1028,6 +1057,262 @@ a:hover { color: var(--magma); }
   max-width: 700px;
   margin: 1rem auto 0;
   color: var(--text);
+}
+
+/* ============================================================
+   ANIMATIONS — LASERS, EMBERS, BURN-IN
+   ============================================================ */
+
+/* ---- Laser sweeps across the hero ------------------------- */
+.lasers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.laser {
+  position: absolute;
+  left: -25%;
+  height: 1.5px;
+  width: 50%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--spark) 30%,
+    var(--neon) 50%,
+    var(--magma) 70%,
+    transparent 100%
+  );
+  box-shadow: 0 0 8px var(--neon),
+              0 0 16px rgba(255, 90, 26, 0.55),
+              0 0 32px rgba(255, 90, 26, 0.25);
+  opacity: 0;
+  filter: blur(0.4px);
+}
+.laser:nth-child(1) { top: 14%; animation: laser-sweep 7s linear infinite; animation-delay: 0s; }
+.laser:nth-child(2) { top: 36%; animation: laser-sweep 9s linear infinite; animation-delay: 2.4s; }
+.laser:nth-child(3) { top: 58%; animation: laser-sweep 6.5s linear infinite; animation-delay: 4.1s; }
+.laser:nth-child(4) { top: 78%; animation: laser-sweep 8.2s linear infinite; animation-delay: 1.2s; }
+.laser:nth-child(5) {
+  top: 22%;
+  width: 70%;
+  height: 1px;
+  transform: rotate(-2deg);
+  animation: laser-sweep 11s linear infinite;
+  animation-delay: 5.5s;
+  opacity: 0;
+}
+.laser:nth-child(6) {
+  top: 70%;
+  width: 70%;
+  height: 1px;
+  transform: rotate(1.5deg);
+  animation: laser-sweep 10s linear infinite;
+  animation-delay: 3.2s;
+  opacity: 0;
+}
+
+@keyframes laser-sweep {
+  0%   { transform: translateX(0) scaleX(1); opacity: 0; }
+  6%   { opacity: 1; }
+  50%  { transform: translateX(120vw) scaleX(1); opacity: 1; }
+  56%  { opacity: 0; }
+  100% { transform: translateX(120vw) scaleX(1); opacity: 0; }
+}
+
+/* ---- Rising embers / sparks -------------------------------- */
+.embers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.ember-particle {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--spark);
+  box-shadow: 0 0 6px var(--spark),
+              0 0 14px var(--neon),
+              0 0 24px rgba(255, 90, 26, 0.5);
+  opacity: 0;
+  animation: ember-rise 6s linear infinite;
+}
+.ember-particle:nth-child(1)  { left:  8%; animation-delay: 0s;   animation-duration: 6.2s; }
+.ember-particle:nth-child(2)  { left: 18%; animation-delay: 1.4s; animation-duration: 7.8s; }
+.ember-particle:nth-child(3)  { left: 27%; animation-delay: 3.1s; animation-duration: 5.9s; }
+.ember-particle:nth-child(4)  { left: 38%; animation-delay: 0.7s; animation-duration: 8.2s; }
+.ember-particle:nth-child(5)  { left: 47%; animation-delay: 2.6s; animation-duration: 6.5s; }
+.ember-particle:nth-child(6)  { left: 56%; animation-delay: 4.3s; animation-duration: 7.4s; }
+.ember-particle:nth-child(7)  { left: 65%; animation-delay: 1.1s; animation-duration: 9s; }
+.ember-particle:nth-child(8)  { left: 74%; animation-delay: 3.8s; animation-duration: 6.8s; }
+.ember-particle:nth-child(9)  { left: 83%; animation-delay: 0.4s; animation-duration: 8.7s; }
+.ember-particle:nth-child(10) { left: 92%; animation-delay: 2.2s; animation-duration: 7.1s; }
+
+@keyframes ember-rise {
+  0% {
+    transform: translate(0, 0) scale(0.4);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  50% { transform: translate(15px, -45vh) scale(1); opacity: 0.9; }
+  80% { opacity: 0.5; }
+  100% {
+    transform: translate(-10px, -100vh) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* ---- Mega title burn-in + continuous flicker -------------- */
+.mega-title span {
+  display: block;
+  opacity: 0;
+  animation: burn-in 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.mega-title span:nth-child(1) { animation-delay: 0.15s; }
+.mega-title span:nth-child(2) { animation-delay: 0.45s; }
+.mega-title span:nth-child(3) { animation-delay: 0.75s; }
+
+@keyframes burn-in {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Continuous flicker on ember-clipped text — pulse the glow halo */
+.mega-title.ember-text {
+  animation: ember-flicker 4s ease-in-out infinite;
+}
+@keyframes ember-flicker {
+  0%, 100% {
+    filter: drop-shadow(0 0 28px rgba(255, 90, 26, 0.22))
+            drop-shadow(0 0 48px rgba(255, 90, 26, 0.08));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px rgba(255, 138, 58, 0.35))
+            drop-shadow(0 0 72px rgba(255, 138, 58, 0.18));
+  }
+}
+
+/* ---- Scorch underline anim under section titles ----------- */
+.section-title h2 {
+  position: relative;
+  display: inline-block;
+}
+.section-title h2::after {
+  content: "";
+  display: block;
+  margin: 0.9rem auto 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--spark) 35%, var(--neon) 50%, var(--magma) 65%, transparent);
+  box-shadow: 0 0 10px var(--neon);
+  animation: scorch-draw 1.4s 0.4s ease-out forwards;
+}
+@keyframes scorch-draw {
+  0%   { width: 0; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { width: 60%; opacity: 1; }
+}
+
+/* ---- Card scanline + scorch on hover ----------------------- */
+.card { position: relative; overflow: hidden; }
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(255, 90, 26, 0.18) 50%,
+    transparent 100%
+  );
+  height: 30%;
+  top: -30%;
+  transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+  opacity: 0;
+}
+.card:hover::before {
+  top: 100%;
+  opacity: 1;
+}
+
+/* ---- Button shimmer on hover ------------------------------- */
+.btn-primary { position: relative; overflow: hidden; }
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+.btn-primary:hover::after { left: 130%; }
+
+/* ---- Scroll indicator with traveling dot ------------------- */
+.scroll-indicator {
+  position: relative;
+  height: 90px;
+  margin: 3rem auto 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--rule-strong) 40%, transparent);
+}
+.scroll-indicator::before,
+.scroll-indicator::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon), 0 0 18px var(--neon);
+  transform: translateX(-50%);
+}
+.scroll-indicator::before {
+  top: 0;
+  animation: ember-fall 2.4s ease-in-out infinite;
+}
+.scroll-indicator::after {
+  top: 0;
+  animation: ember-fall 2.4s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+@keyframes ember-fall {
+  0%   { top: -8px; opacity: 0; }
+  20%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ---- Reduced-motion override ------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .laser, .ember-particle, .brand-logo, .nav-links a.active::before,
+  .scroll-indicator::before, .scroll-indicator::after,
+  .ember-text, .mega-title span {
+    animation: none !important;
+  }
+  .mega-title span { opacity: 1; }
+  .ember-text { background-position: 0 50%; }
 }
 
 /* ---------- 7. RESPONSIVE ----------------------------------- */
