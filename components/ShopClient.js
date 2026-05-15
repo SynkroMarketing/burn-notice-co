@@ -3,6 +3,10 @@
 import { useState } from 'react';
 import { useCart } from './CartProvider';
 import { PRODUCTS } from '@/lib/products';
+import CardImage from './CardImage';
+import StripeCheckout from './StripeCheckout';
+
+const STRIPE_ENABLED = process.env.NEXT_PUBLIC_STRIPE_ENABLED === 'true';
 
 const FILTERS = [
   { key: 'all', label: 'All' },
@@ -18,7 +22,10 @@ export default function ShopClient() {
   const [status, setStatus] = useState({ type: null, message: '' });
   const [submitting, setSubmitting] = useState(false);
 
-  const visible = PRODUCTS.filter((p) => filter === 'all' || p.category === filter);
+  // Production-mode filter: only show products with a real photo.
+  const visible = PRODUCTS.filter(
+    (p) => p.imageSrc && (filter === 'all' || p.category === filter)
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -86,7 +93,7 @@ export default function ShopClient() {
       <div className="grid">
         {visible.map((p) => (
           <article className="card" key={p.id}>
-            <div className="card-image">{p.image}</div>
+            <CardImage src={p.imageSrc} label={p.image} />
             <div className="card-body">
               <h3>{p.displayName || p.name}</h3>
               <p>{p.description}</p>
@@ -112,6 +119,13 @@ export default function ShopClient() {
           <span className="handwritten">Ready to go</span>
           <h2>Checkout</h2>
         </div>
+
+        {STRIPE_ENABLED ? (
+          <>
+            <OrderSummary cart={cart} total={total} />
+            <StripeCheckout />
+          </>
+        ) : (
 
         <form className="form" onSubmit={handleSubmit}>
           {status.message && (
@@ -248,7 +262,84 @@ export default function ShopClient() {
             {submitting ? 'Sending...' : 'Place Order'}
           </button>
         </form>
+        )}
       </div>
     </section>
+  );
+}
+
+/**
+ * Order-summary table shown above the Stripe Payment Element.
+ * Mirrors the table in the manual checkout form so customers see the
+ * line items + total before they pay.
+ */
+function OrderSummary({ cart, total }) {
+  if (cart.length === 0) {
+    return (
+      <div
+        style={{
+          background: '#fdfaf4',
+          border: '1px solid rgba(107,68,35,0.4)',
+          borderRadius: 'var(--radius)',
+          padding: '0.8rem',
+          marginBottom: '1.5rem',
+        }}
+      >
+        <em style={{ color: 'var(--smoke)' }}>
+          Add items from the shop above to see them here.
+        </em>
+      </div>
+    );
+  }
+  return (
+    <div
+      style={{
+        background: '#fdfaf4',
+        border: '1px solid rgba(107,68,35,0.4)',
+        borderRadius: 'var(--radius)',
+        padding: '0.8rem',
+        marginBottom: '1.5rem',
+      }}
+    >
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <tbody>
+          {cart.map((item) => (
+            <tr
+              key={item.id}
+              style={{ borderBottom: '1px solid rgba(107,68,35,0.15)' }}
+            >
+              <td style={{ padding: '0.4rem 0' }}>{item.name}</td>
+              <td style={{ padding: '0.4rem 0', textAlign: 'right' }}>
+                {item.qty} × ${item.price}
+              </td>
+              <td
+                style={{
+                  padding: '0.4rem 0',
+                  textAlign: 'right',
+                  fontWeight: 600,
+                }}
+              >
+                ${(item.qty * item.price).toFixed(2)}
+              </td>
+            </tr>
+          ))}
+          <tr>
+            <td colSpan={2} style={{ paddingTop: '0.6rem', fontWeight: 700 }}>
+              Total
+            </td>
+            <td
+              style={{
+                paddingTop: '0.6rem',
+                textAlign: 'right',
+                fontWeight: 700,
+                color: 'var(--ember)',
+              }}
+            >
+              ${total.toFixed(2)}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 }

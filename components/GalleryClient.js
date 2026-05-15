@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { GALLERY } from '@/lib/products';
+import CardImage from './CardImage';
 
 const FILTERS = [
   { key: 'all', label: 'All' },
@@ -14,7 +15,10 @@ const FILTERS = [
 
 export default function GalleryClient() {
   const [filter, setFilter] = useState('all');
-  const visible = GALLERY.filter((g) => filter === 'all' || g.category === filter);
+  // Production-mode filter: only show pieces with a real photo.
+  const visible = GALLERY.filter(
+    (g) => g.imageSrc && (filter === 'all' || g.category === filter)
+  );
 
   return (
     <>
@@ -33,7 +37,7 @@ export default function GalleryClient() {
       <div className="grid">
         {visible.map((g, i) => (
           <figure className="card" key={`${g.title}-${i}`}>
-            <div className="card-image">{g.image}</div>
+            <CardImage src={g.imageSrc} label={g.image} />
             <div className="card-body">
               <h3>{g.title}</h3>
               <p>{g.desc}</p>

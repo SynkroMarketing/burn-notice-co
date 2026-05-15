@@ -17,7 +17,7 @@ export default function Logo({ size = 'sm', alt = 'Burn Notice Co' }) {
       <img
         src="/images/logo.png"
         alt={alt}
-        className={size === 'hero' ? 'hero-logo' : 'brand-logo'}
+        className={size === 'hero' ? 'hero-logo' : 'brand-logo-img'}
       />
     );
   }

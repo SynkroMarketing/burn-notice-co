@@ -261,6 +261,18 @@ a:hover { color: var(--magma); }
               0 0 22px rgba(255, 90, 26, 0.35);
   animation: brand-pulse 2.8s ease-in-out infinite;
 }
+/* Real logo image (header). Rectangular, full aspect ratio, no orange-dot fallback. */
+.brand-logo-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 12px rgba(255, 90, 26, 0.25));
+}
+/* When the real logo image is present, hide the redundant wordmark text next to it. */
+.brand:has(img.brand-logo-img) .brand-text {
+  display: none;
+}
 @keyframes brand-pulse {
   0%, 100% { box-shadow: 0 0 10px rgba(255, 90, 26, 0.7), 0 0 22px rgba(255, 90, 26, 0.35); }
   50%      { box-shadow: 0 0 16px rgba(255, 138, 58, 0.9), 0 0 32px rgba(255, 138, 58, 0.5); }

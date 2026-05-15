@@ -23,7 +23,7 @@ export default function Header() {
       <div className="nav-container">
         <Link href="/" className="brand">
           <Logo />
-          Burn Notice Co.
+          <span className="brand-text">Burn Notice Co.</span>
         </Link>
         <button
           className="nav-toggle"
