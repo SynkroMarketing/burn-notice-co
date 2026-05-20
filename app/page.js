@@ -34,17 +34,27 @@ export default function HomePage() {
             <span>CO.</span>
           </h1>
           <p className="hero-tagline">
-            <span className="hero-tagline-text">
-              Custom engraved work for the people, places, and pieces that need to last.
+            <span className="hero-tagline-line line-1">
+              <span className="hero-tagline-text">
+                Custom engraved work for the people,
+              </span>
+              <span className="hero-tagline-spark" aria-hidden="true" />
+              <span className="hero-tagline-smoke" aria-hidden="true">
+                <span className="smoke-puff" />
+                <span className="smoke-puff" />
+                <span className="smoke-puff" />
+              </span>
             </span>
-            <span className="hero-tagline-spark" aria-hidden="true" />
-            <span className="hero-tagline-smoke" aria-hidden="true">
-              <span className="smoke-puff" />
-              <span className="smoke-puff" />
-              <span className="smoke-puff" />
-              <span className="smoke-puff" />
-              <span className="smoke-puff" />
-              <span className="smoke-puff" />
+            <span className="hero-tagline-line line-2">
+              <span className="hero-tagline-text">
+                places, and pieces that need to last.
+              </span>
+              <span className="hero-tagline-spark" aria-hidden="true" />
+              <span className="hero-tagline-smoke" aria-hidden="true">
+                <span className="smoke-puff" />
+                <span className="smoke-puff" />
+                <span className="smoke-puff" />
+              </span>
             </span>
           </p>
           <div className="hero-mega-actions">

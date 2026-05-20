@@ -676,29 +676,51 @@ a:hover { color: var(--magma); }
   display: block;
 }
 
-/* Tagline — back to the body font; flame still writes it in. */
+/* Tagline — body font, broken into two manually-split lines so the
+   flame can write line 1 first, then line 2, instead of revealing
+   both at the same time. */
 .hero-tagline {
   font-family: var(--font-body);
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 400;
   color: var(--text);
   margin: 1.6rem auto 1.8rem;
-  max-width: 640px;
-  line-height: 1.5;
+  line-height: 1.55;
   letter-spacing: 0;
-  position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
 }
 
-/* Burned-into-view animation — 1s delay, then a small candle flame
-   "writes" the script left→right. Total cycle ≈ 5s
-   (3s write + ~2s hold), loops forever. */
+/* Each line is its own positioning context so its flame +
+   smoke ride along it, not the whole paragraph. */
+.hero-tagline-line {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Base reveal state (overridden per line below). */
 .hero-tagline-text {
   display: inline-block;
   clip-path: inset(0 101% 0 0);
   opacity: 0;
-  animation: tagline-reveal 5s 1s linear infinite;
 }
+
+/* Line 1 — writes during the first ~2s of the cycle. */
+.line-1 .hero-tagline-text  { animation: tagline-reveal-1 6s 1s linear infinite; }
+.line-1 .hero-tagline-spark { animation:
+  tagline-spark-1   6s 1s linear infinite,
+  flame-flicker   0.13s ease-in-out infinite alternate; }
+.line-1 .hero-tagline-smoke { animation: tagline-spark-1 6s 1s linear infinite; }
+
+/* Line 2 — invisible while line 1 is writing, then writes. */
+.line-2 .hero-tagline-text  { animation: tagline-reveal-2 6s 1s linear infinite; }
+.line-2 .hero-tagline-spark { animation:
+  tagline-spark-2   6s 1s linear infinite,
+  flame-flicker   0.13s ease-in-out infinite alternate; }
+.line-2 .hero-tagline-smoke { animation: tagline-spark-2 6s 1s linear infinite; }
 
 /* Small candle flame — teardrop body + inner hot core. Shaped via
    clip-path polygon so it has a real flame silhouette, not a blob. */
@@ -803,23 +825,44 @@ a:hover { color: var(--magma); }
   100% { transform: translate(-85%, -68px) scale(2.8); opacity: 0; }
 }
 
-@keyframes tagline-reveal {
-  /* 0–60% write, 60–95% hold, 95–100% fade & reset */
+/* Line 1 reveal — writes during the first 33% of the cycle,
+   holds 33–94%, fades 94–100%. */
+@keyframes tagline-reveal-1 {
   0%   { clip-path: inset(0 101% 0 0); opacity: 0; }
-  4%   { opacity: 1; }
-  60%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
-  92%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
-  98%  { clip-path: inset(0 0% 0 0);   opacity: 0; }
+  3%   { opacity: 1; }
+  33%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  90%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  96%  { clip-path: inset(0 0% 0 0);   opacity: 0; }
   100% { clip-path: inset(0 101% 0 0); opacity: 0; }
 }
 
-@keyframes tagline-spark {
-  /* Flame is anchored under the leading edge of the reveal */
-  0%   { left: -2px;              opacity: 0; }
-  4%   { opacity: 1; }
-  60%  { left: calc(100% - 12px); opacity: 1; }
-  66%  { opacity: 0; }
-  100% { left: -2px;              opacity: 0; }
+@keyframes tagline-spark-1 {
+  0%   { left: -2px;               opacity: 0; }
+  3%   { opacity: 1; }
+  33%  { left: calc(100% - 12px);  opacity: 1; }
+  37%  { opacity: 0; }
+  100% { left: -2px;               opacity: 0; }
+}
+
+/* Line 2 reveal — stays clipped until line 1 finishes writing
+   (33%), then writes during 33–63%, holds 63–94%, fades 94–100%. */
+@keyframes tagline-reveal-2 {
+  0%   { clip-path: inset(0 101% 0 0); opacity: 0; }
+  33%  { clip-path: inset(0 101% 0 0); opacity: 0; }
+  36%  { opacity: 1; }
+  63%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  90%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  96%  { clip-path: inset(0 0% 0 0);   opacity: 0; }
+  100% { clip-path: inset(0 101% 0 0); opacity: 0; }
+}
+
+@keyframes tagline-spark-2 {
+  0%   { left: -2px;               opacity: 0; }
+  33%  { left: -2px;               opacity: 0; }
+  36%  { opacity: 1; }
+  63%  { left: calc(100% - 12px);  opacity: 1; }
+  67%  { opacity: 0; }
+  100% { left: -2px;               opacity: 0; }
 }
 
 /* Organic flicker — the flame leans + wobbles like a real candle */
