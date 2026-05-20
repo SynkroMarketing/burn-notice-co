@@ -643,7 +643,7 @@ a:hover { color: var(--magma); }
   letter-spacing: 0.36em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 2.4rem;
+  margin-bottom: 1.5rem;
   display: inline-flex;
   align-items: center;
   gap: 1.2rem;
@@ -658,9 +658,10 @@ a:hover { color: var(--magma); }
 
 .mega-title {
   font-family: var(--font-display);
-  font-size: clamp(4.5rem, 18vw, 18rem);
-  line-height: 0.86;
-  letter-spacing: -0.025em;
+  /* Use the smaller of viewport width / height so 3 stacked lines fit on screen */
+  font-size: clamp(3rem, min(11vw, 18vh), 10rem);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0;
 }
@@ -670,11 +671,11 @@ a:hover { color: var(--magma); }
 
 .hero-tagline {
   font-family: var(--font-body);
-  font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 400;
   color: var(--text);
-  margin: 2rem auto 2.4rem;
-  max-width: 700px;
+  margin: 1.6rem auto 1.8rem;
+  max-width: 640px;
   line-height: 1.5;
   letter-spacing: 0;
 }
@@ -1283,8 +1284,8 @@ a:hover { color: var(--magma); }
 /* ---- Scroll indicator with traveling dot ------------------- */
 .scroll-indicator {
   position: relative;
-  height: 90px;
-  margin: 3rem auto 0;
+  height: 60px;
+  margin: 2rem auto 0;
   width: 1px;
   background: linear-gradient(180deg, transparent, var(--rule-strong) 40%, transparent);
 }
