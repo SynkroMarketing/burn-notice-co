@@ -704,10 +704,10 @@ a:hover { color: var(--magma); }
    clip-path polygon so it has a real flame silhouette, not a blob. */
 .hero-tagline-spark {
   position: absolute;
-  bottom: 18%;
+  bottom: -4px;
   left: 0;
-  width: 11px;
-  height: 18px;
+  width: 14px;
+  height: 30px;
   opacity: 0;
   pointer-events: none;
   transform-origin: 50% 100%;
@@ -759,6 +759,50 @@ a:hover { color: var(--magma); }
   );
 }
 
+/* Smoke layer — sibling that tracks the flame's X position via the
+   same tagline-spark keyframes; puffs inside emit and rise. */
+.hero-tagline-smoke {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  height: 1px;
+  pointer-events: none;
+  animation: tagline-spark 5s 1s linear infinite;
+}
+
+.smoke-puff {
+  position: absolute;
+  left: 50%;
+  bottom: 18px; /* start near the flame's tip */
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(230, 220, 200, 0.55) 0%,
+    rgba(170, 160, 145, 0.25) 55%,
+    transparent 100%
+  );
+  filter: blur(2.5px);
+  opacity: 0;
+  transform: translate(-50%, 0);
+  animation: smoke-rise 2.4s ease-out infinite;
+}
+.smoke-puff:nth-child(1) { animation-delay: 0.00s; }
+.smoke-puff:nth-child(2) { animation-delay: 0.40s; left: 40%; }
+.smoke-puff:nth-child(3) { animation-delay: 0.80s; left: 60%; }
+.smoke-puff:nth-child(4) { animation-delay: 1.20s; left: 50%; }
+.smoke-puff:nth-child(5) { animation-delay: 1.60s; left: 35%; }
+.smoke-puff:nth-child(6) { animation-delay: 2.00s; left: 65%; }
+
+@keyframes smoke-rise {
+  0%   { transform: translate(-50%, 0)    scale(0.35); opacity: 0; }
+  15%  { opacity: 0.7; }
+  55%  { transform: translate(-65%, -32px) scale(1.6); opacity: 0.45; }
+  100% { transform: translate(-85%, -68px) scale(2.8); opacity: 0; }
+}
+
 @keyframes tagline-reveal {
   /* 0–60% write, 60–95% hold, 95–100% fade & reset */
   0%   { clip-path: inset(0 101% 0 0); opacity: 0; }
@@ -771,11 +815,11 @@ a:hover { color: var(--magma); }
 
 @keyframes tagline-spark {
   /* Flame is anchored under the leading edge of the reveal */
-  0%   { left: -2px;             opacity: 0; }
+  0%   { left: -2px;              opacity: 0; }
   4%   { opacity: 1; }
-  60%  { left: calc(100% - 9px); opacity: 1; }
+  60%  { left: calc(100% - 12px); opacity: 1; }
   66%  { opacity: 0; }
-  100% { left: -2px;             opacity: 0; }
+  100% { left: -2px;              opacity: 0; }
 }
 
 /* Organic flicker — the flame leans + wobbles like a real candle */
@@ -787,6 +831,8 @@ a:hover { color: var(--magma); }
 @media (prefers-reduced-motion: reduce) {
   .hero-tagline-text  { clip-path: none; opacity: 1; animation: none; }
   .hero-tagline-spark { animation: none; opacity: 0; }
+  .hero-tagline-smoke { animation: none; }
+  .smoke-puff         { animation: none; opacity: 0; }
 }
 
 .hero-mega-actions {

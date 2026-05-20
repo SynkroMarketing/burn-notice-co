@@ -38,6 +38,14 @@ export default function HomePage() {
               Custom engraved work for the people, places, and pieces that need to last.
             </span>
             <span className="hero-tagline-spark" aria-hidden="true" />
+            <span className="hero-tagline-smoke" aria-hidden="true">
+              <span className="smoke-puff" />
+              <span className="smoke-puff" />
+              <span className="smoke-puff" />
+              <span className="smoke-puff" />
+              <span className="smoke-puff" />
+              <span className="smoke-puff" />
+            </span>
           </p>
           <div className="hero-mega-actions">
             <Link href="/custom" className="btn btn-primary">
