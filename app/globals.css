@@ -689,55 +689,77 @@ a:hover { color: var(--magma); }
   display: inline-block;
 }
 
-/* Burned-into-view animation — 2s delay, then a horizontal scorch
-   bar travels left→right revealing the text behind it. */
+/* Burned-into-view animation — 1s delay, looped every cycle:
+   reveal (1.8s) → hold (1.8s) → fade out (0.4s) → reset → repeat.
+   Total cycle = 4s; gap between completions ≈ 2s as requested. */
 .hero-tagline-text {
   display: inline-block;
   clip-path: inset(0 101% 0 0);
-  animation: tagline-reveal 1.8s 2s cubic-bezier(0.55, 0.05, 0.25, 1) forwards;
+  opacity: 0;
+  animation: tagline-reveal 4s 1s linear infinite;
 }
-.hero-tagline-text::after {
-  /* Subtle ember glow on the revealed text */
-  content: "";
-}
+
+/* A wide, flame-shaped "torch" that travels at the reveal edge.
+   Comet body of warm gradient + flicker shake for organic fire feel.
+   mix-blend-mode: screen lights the underlying letters as it passes. */
 .hero-tagline-spark {
   position: absolute;
-  top: -6px;
+  top: -14px;
   bottom: -6px;
-  left: 0;
-  width: 3px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    var(--spark) 25%,
-    var(--neon) 50%,
-    var(--magma) 75%,
-    transparent 100%
-  );
+  left: -50px;
+  width: 72px;
+  background:
+    radial-gradient(ellipse 35% 90% at 80% 50%, #fff2c0 0%, transparent 70%),
+    radial-gradient(ellipse 55% 110% at 75% 50%, var(--spark) 0%, transparent 70%),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(192, 52, 10, 0.25) 25%,
+      rgba(255, 90, 26, 0.55) 55%,
+      var(--magma) 80%,
+      var(--neon) 95%,
+      var(--spark) 100%
+    );
+  filter: blur(3px);
+  border-radius: 50% 80% 40% 70% / 60% 50% 70% 40%;
   box-shadow:
-    0 0 10px var(--neon),
-    0 0 22px var(--magma),
-    0 0 48px rgba(255, 90, 26, 0.55);
+    0 0 22px var(--neon),
+    0 0 48px var(--magma),
+    0 0 90px rgba(255, 90, 26, 0.55);
   opacity: 0;
-  border-radius: 4px;
-  animation: tagline-spark 1.8s 2s cubic-bezier(0.55, 0.05, 0.25, 1) forwards;
   pointer-events: none;
+  mix-blend-mode: screen;
+  transform-origin: center;
+  animation:
+    tagline-spark 4s 1s linear infinite,
+    flame-flicker 0.14s ease-in-out infinite alternate;
 }
 
 @keyframes tagline-reveal {
-  from { clip-path: inset(0 101% 0 0); }
-  to   { clip-path: inset(0 0% 0 0); }
+  /* cycle: 0–45% reveal, 45–90% hold, 90–98% fade, 98–100% reset */
+  0%   { clip-path: inset(0 101% 0 0); opacity: 0; }
+  5%   { opacity: 1; }
+  45%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  90%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  98%  { clip-path: inset(0 0% 0 0);   opacity: 0; }
+  100% { clip-path: inset(0 101% 0 0); opacity: 0; }
 }
 
 @keyframes tagline-spark {
-  0%   { left: 0%;   opacity: 0; }
-  6%   { opacity: 1; }
-  92%  { opacity: 1; }
-  100% { left: 100%; opacity: 0; }
+  0%   { left: -50px;            opacity: 0; }
+  5%   { opacity: 0.95; }
+  45%  { left: calc(100% - 22px); opacity: 0.95; }
+  52%  { opacity: 0; }
+  100% { left: -50px;            opacity: 0; }
+}
+
+@keyframes flame-flicker {
+  0%   { transform: scale(1, 1)       skewX(0deg);   filter: blur(3px); }
+  100% { transform: scale(0.92, 1.18) skewX(-2deg);  filter: blur(2.5px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-tagline-text { clip-path: none; animation: none; }
+  .hero-tagline-text  { clip-path: none; opacity: 1; animation: none; }
   .hero-tagline-spark { animation: none; opacity: 0; }
 }
 
