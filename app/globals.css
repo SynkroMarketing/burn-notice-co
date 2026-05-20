@@ -631,11 +631,35 @@ a:hover { color: var(--magma); }
 }
 .hero-mega-inner {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   max-width: 1500px;
   margin: 0 auto;
   width: 100%;
   text-align: center;
+}
+
+/* Big faint logo watermark behind the hero — sits under the lasers */
+.hero-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(72vh, 72vw, 760px);
+  height: auto;
+  opacity: 0.14;
+  mix-blend-mode: lighten;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 80px rgba(255, 90, 26, 0.25));
+  animation: watermark-breathe 8s ease-in-out infinite;
+}
+@keyframes watermark-breathe {
+  0%, 100% { opacity: 0.12; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 0.18; transform: translate(-50%, -50%) scale(1.02); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-watermark { animation: none; }
 }
 .hero-mega-eyebrow {
   font-family: var(--font-mono);
@@ -1082,7 +1106,7 @@ a:hover { color: var(--magma); }
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 .laser {
   position: absolute;
@@ -1139,7 +1163,7 @@ a:hover { color: var(--magma); }
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 .ember-particle {
   position: absolute;

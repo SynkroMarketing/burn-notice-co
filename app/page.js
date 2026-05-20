@@ -4,6 +4,12 @@ export default function HomePage() {
   return (
     <>
       <section className="hero-mega">
+        <img
+          className="hero-watermark"
+          src="/images/logo.png"
+          alt=""
+          aria-hidden="true"
+        />
         <div className="lasers" aria-hidden="true">
           <span className="laser" />
           <span className="laser" />
