@@ -25,12 +25,20 @@ export default function Logo({ size = 'sm', alt = 'Burn Notice Co' }) {
         src="/images/logo.png"
         alt={alt}
         className="brand-logo-img"
+        draggable={false}
       />
     );
   }
 
   if (status === 'ok') {
-    return <img src="/images/logo.png" alt={alt} className="hero-logo" />;
+    return (
+      <img
+        src="/images/logo.png"
+        alt={alt}
+        className="hero-logo"
+        draggable={false}
+      />
+    );
   }
 
   // Hero fallback — stamped serif title plate

@@ -268,6 +268,10 @@ a:hover { color: var(--magma); }
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 0 12px rgba(255, 90, 26, 0.25));
+  /* Clicks pass through to the parent <Link>; no "open image in new tab" */
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 /* When the real logo image is present, hide the redundant wordmark text next to it. */
 .brand:has(img.brand-logo-img) .brand-text {
