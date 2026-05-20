@@ -642,7 +642,7 @@ a:hover { color: var(--magma); }
 .hero-watermark {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 22%;
   transform: translate(-50%, -50%);
   width: min(72vh, 72vw, 760px);
   height: auto;
@@ -657,6 +657,9 @@ a:hover { color: var(--magma); }
 @keyframes watermark-breathe {
   0%, 100% { opacity: 0.12; transform: translate(-50%, -50%) scale(1); }
   50%      { opacity: 0.18; transform: translate(-50%, -50%) scale(1.02); }
+}
+@media (max-width: 880px) {
+  .hero-watermark { left: 50%; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-watermark { animation: none; }
