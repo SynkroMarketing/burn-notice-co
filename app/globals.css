@@ -685,6 +685,60 @@ a:hover { color: var(--magma); }
   max-width: 640px;
   line-height: 1.5;
   letter-spacing: 0;
+  position: relative;
+  display: inline-block;
+}
+
+/* Burned-into-view animation — 2s delay, then a horizontal scorch
+   bar travels left→right revealing the text behind it. */
+.hero-tagline-text {
+  display: inline-block;
+  clip-path: inset(0 101% 0 0);
+  animation: tagline-reveal 1.8s 2s cubic-bezier(0.55, 0.05, 0.25, 1) forwards;
+}
+.hero-tagline-text::after {
+  /* Subtle ember glow on the revealed text */
+  content: "";
+}
+.hero-tagline-spark {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--spark) 25%,
+    var(--neon) 50%,
+    var(--magma) 75%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px var(--neon),
+    0 0 22px var(--magma),
+    0 0 48px rgba(255, 90, 26, 0.55);
+  opacity: 0;
+  border-radius: 4px;
+  animation: tagline-spark 1.8s 2s cubic-bezier(0.55, 0.05, 0.25, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes tagline-reveal {
+  from { clip-path: inset(0 101% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+
+@keyframes tagline-spark {
+  0%   { left: 0%;   opacity: 0; }
+  6%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-tagline-text { clip-path: none; animation: none; }
+  .hero-tagline-spark { animation: none; opacity: 0; }
 }
 
 .hero-mega-actions {
