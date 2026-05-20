@@ -676,16 +676,15 @@ a:hover { color: var(--magma); }
   display: block;
 }
 
-/* Tagline is written in Sacramento (script) — looks like flowing
-   handwriting being burned in by the leading flame. */
+/* Tagline — back to the body font; flame still writes it in. */
 .hero-tagline {
-  font-family: var(--font-script);
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   font-weight: 400;
   color: var(--text);
-  margin: 1.4rem auto 1.6rem;
-  max-width: 720px;
-  line-height: 1.25;
+  margin: 1.6rem auto 1.8rem;
+  max-width: 640px;
+  line-height: 1.5;
   letter-spacing: 0;
   position: relative;
   display: inline-block;
@@ -705,10 +704,10 @@ a:hover { color: var(--magma); }
    clip-path polygon so it has a real flame silhouette, not a blob. */
 .hero-tagline-spark {
   position: absolute;
-  bottom: 14%;
+  bottom: 18%;
   left: 0;
-  width: 16px;
-  height: 26px;
+  width: 11px;
+  height: 18px;
   opacity: 0;
   pointer-events: none;
   transform-origin: 50% 100%;
@@ -772,11 +771,11 @@ a:hover { color: var(--magma); }
 
 @keyframes tagline-spark {
   /* Flame is anchored under the leading edge of the reveal */
-  0%   { left: -2px;            opacity: 0; }
+  0%   { left: -2px;             opacity: 0; }
   4%   { opacity: 1; }
-  60%  { left: calc(100% - 14px); opacity: 1; }
+  60%  { left: calc(100% - 9px); opacity: 1; }
   66%  { opacity: 0; }
-  100% { left: -2px;            opacity: 0; }
+  100% { left: -2px;             opacity: 0; }
 }
 
 /* Organic flicker — the flame leans + wobbles like a real candle */
