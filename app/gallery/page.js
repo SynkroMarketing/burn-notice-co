@@ -19,8 +19,7 @@ export default function GalleryPage() {
             color: 'var(--cream)',
           }}
         >
-          A look at what&rsquo;s come off the laser. Filter by category, or
-          scroll through it all.
+          A look at what&rsquo;s come off the laser.
         </p>
       </section>
 
