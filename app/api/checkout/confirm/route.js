@@ -1,6 +1,29 @@
 import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import { getDb, buildSummary } from '@/lib/db';
+import { PRODUCTS } from '@/lib/products';
+
+const clip = (v, n) => String(v ?? '').slice(0, n);
+
+// Rebuild the itemization from the PaymentIntent's metadata (which we set
+// server-side at intent creation) instead of trusting the client's claimed
+// items — otherwise a buyer could pay for one thing and have the order
+// record claim another.
+function itemsFromIntent(intent) {
+  try {
+    const ids = JSON.parse(intent.metadata?.cart_items || '[]');
+    const byId = new Map(PRODUCTS.map((p) => [p.id, p]));
+    return ids.map(({ id, qty }) => {
+      const p = byId.get(id);
+      const q = Math.max(1, Math.min(99, Number(qty) || 1));
+      return p
+        ? { id, qty: q, name: p.name, price: p.price }
+        : { id: clip(id, 100), qty: q };
+    });
+  } catch {
+    return [];
+  }
+}
 
 /**
  * POST /api/checkout/confirm
@@ -46,12 +69,20 @@ export async function POST(req) {
     }
 
     const totalCents = intent.amount_received || intent.amount;
+    // Whitelist + cap the client-supplied fields instead of spreading the
+    // raw body into the stored payload.
     const payloadObj = {
-      ...body,
       type: 'shop',
       paymentIntentId,
       amountCents: totalCents,
       paid: true,
+      name: clip(body.name, 200),
+      email: clip(body.email || intent.receipt_email, 200),
+      phone: clip(body.phone, 50),
+      shipping: clip(body.shipping, 500),
+      personalization: clip(body.personalization, 2000),
+      notes: clip(body.notes, 2000),
+      items: itemsFromIntent(intent),
     };
 
     const insert = db.prepare(`
@@ -60,8 +91,8 @@ export async function POST(req) {
     `);
     const result = insert.run({
       type: 'shop',
-      name: String(body.name || '').slice(0, 200),
-      email: String(body.email || intent.receipt_email || '').slice(0, 200),
+      name: payloadObj.name,
+      email: payloadObj.email,
       payload: JSON.stringify(payloadObj),
       summary: buildSummary(payloadObj),
       total: totalCents / 100,
@@ -75,7 +106,7 @@ export async function POST(req) {
   } catch (e) {
     console.error('checkout/confirm failed:', e);
     return NextResponse.json(
-      { error: e.message || 'Could not confirm payment.' },
+      { error: 'Could not confirm payment.' },
       { status: 500 }
     );
   }

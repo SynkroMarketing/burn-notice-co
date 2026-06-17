@@ -25,10 +25,21 @@ export const dynamic = 'force-dynamic';
 export async function POST(req) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret) {
-    // No webhook secret configured — accept the request but log a warning.
-    // (You'll still get orders via /api/checkout/confirm in the meantime.)
+    if (process.env.NODE_ENV === 'production') {
+      // Without signature verification anyone could POST a fake
+      // payment_intent.succeeded and create "paid" orders. Fail closed —
+      // orders still arrive via /api/checkout/confirm, which verifies the
+      // PaymentIntent directly with Stripe.
+      console.error(
+        '[stripe webhook] STRIPE_WEBHOOK_SECRET is not set — rejecting unverified webhook.'
+      );
+      return NextResponse.json(
+        { error: 'Webhook not configured.' },
+        { status: 503 }
+      );
+    }
     console.warn(
-      '[stripe webhook] STRIPE_WEBHOOK_SECRET is not set — skipping verification. Set it in production.'
+      '[stripe webhook] STRIPE_WEBHOOK_SECRET is not set — skipping verification (dev only).'
     );
   }
 

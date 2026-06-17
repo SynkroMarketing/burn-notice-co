@@ -5,9 +5,36 @@ import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
 
 export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'
+  ),
   title: 'Burn Notice Co — Custom Laser Engraving',
   description:
     'Handcrafted laser engraving on wood, drinkware, signs, and custom gifts. Made with care in the USA.',
+  openGraph: {
+    title: 'Burn Notice Co — Custom Laser Engraving',
+    description:
+      'Handcrafted laser engraving on wood, drinkware, signs, and custom gifts.',
+    url: '/',
+    siteName: 'Burn Notice Co',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'Burn Notice Co custom laser engraving',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Burn Notice Co — Custom Laser Engraving',
+    description:
+      'Handcrafted laser engraving on wood, drinkware, signs, and custom gifts.',
+    images: ['/opengraph-image'],
+  },
 };
 
 export default function RootLayout({ children }) {

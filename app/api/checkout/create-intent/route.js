@@ -29,7 +29,11 @@ export async function POST(req) {
       // Enables Apple Pay, Google Pay, Link, and all card brands automatically
       // based on what's enabled in your Stripe Dashboard.
       automatic_payment_methods: { enabled: true },
-      receipt_email: body.email || undefined,
+      receipt_email:
+        typeof body.email === 'string' &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)
+          ? body.email.slice(0, 200)
+          : undefined,
       metadata: {
         customer_name: String(body.name || '').slice(0, 200),
         cart_items: JSON.stringify(
@@ -46,7 +50,7 @@ export async function POST(req) {
   } catch (e) {
     console.error('create-intent failed:', e);
     return NextResponse.json(
-      { error: e.message || 'Could not create payment intent.' },
+      { error: 'Could not create payment intent.' },
       { status: 500 }
     );
   }
